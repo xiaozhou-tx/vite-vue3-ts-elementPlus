@@ -1,0 +1,27 @@
+body {
+	font-size: 16px;
+	font-family: 楷体;
+}
+.el-input__inner,
+.el-range-input,
+.el-button {
+	font-family: 楷体;
+}
+
+/* 缩放导航栏的子级 */
+.subMenu {
+	background-color: #003a8c !important;
+	color: #fff !important;
+	border-radius: 10px;
+}
+.subMenu .el-menu--popup {
+	padding: 0 !important;
+	border-radius: 20px !important;
+	-webkit-border-radius: 20px !important;
+	-moz-border-radius: 20px !important;
+	-ms-border-radius: 20px !important;
+	-o-border-radius: 20px !important;
+}
+.subMenu .el-menu--popup .el-menu-item {
+	margin: 0 !important;
+}

@@ -1,0 +1,33 @@
+{
+	"name": "vite-vue3-ts-elementplus",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite --mode development --host",
+		"test": "vite --mode test --host",
+		"build": "vue-tsc -b && vite build --mode production"
+	},
+	"dependencies": {
+		"@amap/amap-jsapi-loader": "^1.0.1",
+		"animate.css": "^4.1.1",
+		"axios": "^1.7.8",
+		"chalk": "^5.3.0",
+		"echarts": "^5.5.1",
+		"element-plus": "^2.9.0",
+		"gm-crypt": "^0.0.2",
+		"pinia": "^2.2.7",
+		"vue": "^3.5.12",
+		"vue-router": "^4.5.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.9.1",
+		"@vitejs/plugin-vue": "^5.1.4",
+		"sass": "^1.81.0",
+		"typescript": "~5.6.2",
+		"unplugin-auto-import": "^0.18.5",
+		"unplugin-vue-components": "^0.27.4",
+		"vite": "^5.4.10",
+		"vue-tsc": "^2.1.8"
+	}
+}
