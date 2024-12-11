@@ -1,6 +1,6 @@
 ### Vue 3 + TypeScript + Vite
 
-> 这是一个使用 Vue 3 + TypeScript + Vite + elementPlus 构建的后台管理系统
+> 这是一个使用 Vue 3 + TypeScript + Vite + elementPlus 构建的前端项目模板
 
 #### 特点：
 
