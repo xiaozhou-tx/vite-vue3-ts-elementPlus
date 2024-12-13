@@ -1,1 +1,0 @@
-import{d as t,o as e,c as s,P as n}from"./@vue-BAU0wG7q.js";const c={class:"upload"},l=t({__name:"upload",props:["data"],setup(a){const o=a;return(p,r)=>(e(),s("div",c,n(o.data),1))}});export{l as default};

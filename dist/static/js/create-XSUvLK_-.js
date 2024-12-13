@@ -1,1 +1,0 @@
-import{d as a,o,c as s,P as c}from"./@vue-BAU0wG7q.js";const n={class:"create"},d=a({__name:"create",props:["data"],setup(e){const t=e;return(r,p)=>(o(),s("div",n,c(t.data),1))}});export{d as default};
