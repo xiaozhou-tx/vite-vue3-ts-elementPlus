@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as o,o as c}from"./@vue-BAU0wG7q.js";const t={},r={class:"home"};function s(n,_){return c(),o("div",r,"首页")}const i=e(t,[["render",s]]);export{i as default};
