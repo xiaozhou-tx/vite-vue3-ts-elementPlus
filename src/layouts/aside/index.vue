@@ -21,7 +21,7 @@
 	 * @param isChile 是否是子菜单
 	 * @param index 索引
 	 */
-	const goPage = (path: string, row: RouteRecordRaw, isChile = false, index?: number) => {
+	const goPage = (path: string, row: RouteRecordRaw, isChile = false) => {
 		let pagePath = path;
 		if (!isChile) {
 			if (collapseSub.value === path) isCollapseSub.value = !isCollapseSub.value;
@@ -31,8 +31,6 @@
 		} else {
 			collapseSub.value = row.meta?.parentPath || "";
 		}
-		// 折叠菜单时，获取展开导航栏top距离
-		if (!isChile) getCollapseSubTop(index!);
 		defaultActive.value = pagePath;
 		router.push(pagePath);
 	};
@@ -53,12 +51,6 @@
 	const resize = () => {
 		if (window.innerWidth < 1000) configStore.toggleCollapse(true);
 		else configStore.toggleCollapse(false);
-		if (route.meta.parentPath) {
-			const index = pages.findIndex((item) => item.path === route.meta.parentPath);
-			nextTick(() => {
-				getCollapseSubTop(index);
-			});
-		}
 	};
 	resize();
 	window.addEventListener("resize", resize);
@@ -66,14 +58,24 @@
 		window.removeEventListener("resize", resize);
 	});
 
-	// 获取当前展开导航栏top距离
+	// 监听是否折叠菜单
 	const navItemRef = ref<any>(null);
 	const collapseSubTop = ref<number>(60);
-	const getCollapseSubTop = (index: number) => {
-		if (navItemRef.value && configStore.collapse) {
-			collapseSubTop.value = navItemRef.value[index].offsetTop + 60;
-		}
-	};
+	watch(
+		() => configStore.collapse,
+		(newValue) => {
+			if (route.meta.parentPath && newValue) {
+				nextTick(() => {
+					const index = pages.findIndex((item) => item.path === route.meta.parentPath);
+					// 获取当前展开导航栏top距离
+					if (navItemRef.value && configStore.collapse) {
+						collapseSubTop.value = navItemRef.value[index].offsetTop + 60;
+					}
+				});
+			}
+		},
+		{ deep: true, immediate: true }
+	);
 </script>
 
 <template>
@@ -85,8 +87,8 @@
 		</div>
 		<!-- 导航栏 -->
 		<nav>
-			<li v-for="(item, index) in pages" :key="item.name" ref="navItemRef">
-				<div class="nav-item" :class="item.path === defaultActive || item.path === collapseSub ? 'active' : ''" @click="goPage(item.path, item, false, index)">
+			<li v-for="item in pages" :key="item.name" ref="navItemRef">
+				<div class="nav-item" :class="item.path === defaultActive || item.path === collapseSub ? 'active' : ''" @click="goPage(item.path, item, false)">
 					<component class="icon" :is="item.meta?.icon" />
 					<span :class="configStore.collapse ? 'disabled' : 'visible'">{{ item.meta?.title }}</span>
 					<component
@@ -96,11 +98,11 @@
 					></component>
 				</div>
 				<ul v-if="isCollapseSub && collapseSub === item.path" :class="configStore.collapse ? 'collapse' : ''" :style="{ top: collapseSubTop + 'px' }">
-					<li v-for="(child, index) in item.children" :key="child.name">
+					<li v-for="child in item.children" :key="child.name">
 						<div
 							class="nav-item sub-nav-item"
 							:class="`${item.path}/${child.path}` === defaultActive ? 'active' : ''"
-							@click="goPage(`${item.path}/${child.path}`, child, true, index)"
+							@click="goPage(`${item.path}/${child.path}`, child, true)"
 						>
 							<component class="icon" :is="child.meta?.icon" />
 							<span>{{ child.meta?.title }}</span>
