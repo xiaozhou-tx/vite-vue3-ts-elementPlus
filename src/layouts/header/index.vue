@@ -38,8 +38,11 @@
 	const restaurants = ref<Search[]>([]);
 	// 返回搜索出来的列表
 	const querySearch = (queryString: string, cb: any) => {
-		// 模糊查询 restaurants 里面匹配的text数据
-		let results = fuzzySearch(restaurants.value, "text", queryString);
+		let results: Search[] = [];
+		let allCode = [" ", "*", "/"];
+		// 空格、*、/ 搜索全部，其他模糊搜索
+		if (allCode.includes(queryString)) results = restaurants.value;
+		else results = fuzzySearch(restaurants.value, "text", queryString);
 		cb(results);
 	};
 	// 全局搜索选中执行
