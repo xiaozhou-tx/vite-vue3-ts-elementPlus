@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
-import { HomeFilled, UserFilled } from "@element-plus/icons-vue";
+import { HomeFilled, Tools } from "@element-plus/icons-vue";
 
 // 路由配置
 const pages: RouteRecordRaw[] = [
@@ -15,23 +15,35 @@ const pages: RouteRecordRaw[] = [
 			requiresAuth: true
 		}
 	},
-	// 用户
+	// 系统管理
 	{
-		path: "/user",
-		name: "User",
+		path: "/system",
+		name: "System",
 		meta: {
 			index: "2",
-			title: "用户管理",
-			icon: UserFilled
+			title: "系统管理",
+			icon: Tools
 		},
 		children: [
 			{
-				path: "list",
-				name: "UserList",
-				component: () => import("../pages/User/index.vue"),
+				path: "user",
+				name: "SystemUser",
+				component: () => import("../pages/System/User/index.vue"),
 				meta: {
 					index: "2-1",
-					title: "用户列表",
+					title: "用户管理",
+					parentPath: "/system",
+					requiresAuth: true
+				}
+			},
+			{
+				path: "role",
+				name: "SystemRole",
+				component: () => import("../pages/System/Role/index.vue"),
+				meta: {
+					index: "2-2",
+					title: "角色管理",
+					parentPath: "/system",
 					requiresAuth: true
 				}
 			}

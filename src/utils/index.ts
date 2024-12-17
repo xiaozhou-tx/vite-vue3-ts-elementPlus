@@ -15,8 +15,9 @@ export function getImageUrl(url: string): string {
  * @returns {array} - 模糊查询后的数组
  */
 export function fuzzySearch(array: any[], key: string | number, searchTerm: string | RegExp): Array<any> {
-	const pattern = new RegExp(searchTerm, "gi");
-	return array.filter((item: { [x: string]: string }) => pattern.test(item[key]));
+	let fuzzyArray: Array<any> = [];
+	fuzzyArray = array.filter((item) => item[key].indexOf(searchTerm) > -1);
+	return fuzzyArray;
 }
 
 /**

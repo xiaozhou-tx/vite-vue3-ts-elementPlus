@@ -28,7 +28,6 @@
 		min-width: 600px;
 	}
 	.el-aside {
-		z-index: 2;
 		box-shadow: 2px 0 6px rgba(0, 0, 0, 0.35);
 		background-color: #1f2a3d;
 		overflow: hidden;
@@ -43,6 +42,7 @@
 		background-color: #e6ecf2;
 		overflow-y: scroll;
 		padding: 10px;
+		z-index: -1;
 	}
 
 	.folding {

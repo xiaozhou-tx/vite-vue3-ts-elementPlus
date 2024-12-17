@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-	import { Fold, Expand, Link, Setting, Search } from "@element-plus/icons-vue";
+	import { Link, Setting, Search } from "@element-plus/icons-vue";
 	import useConfigStore from "@/stores/config";
-	import { debounce, fuzzySearch } from "@/utils/index";
+	import { debounce, fuzzySearch, getImageUrl } from "@/utils/index";
 	const configStore = useConfigStore();
 	const router = useRouter();
 	const route = useRoute();
@@ -72,9 +72,11 @@
 	<div class="header">
 		<!-- 操作侧边栏、面包屑 -->
 		<div class="header_left header_item">
-			<el-icon :size="24" @click="configStore.toggleCollapse(!configStore.collapse)">
-				<component :is="configStore.collapse ? Expand : Fold" />
-			</el-icon>
+			<img
+				class="operationAside"
+				:src="getImageUrl(configStore.collapse ? 'header/expand.png' : 'header/fold.png')"
+				@click="configStore.toggleCollapse(!configStore.collapse)"
+			/>
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
 				<el-breadcrumb-item v-for="item in breadcrumb" :key="item">{{ item }}</el-breadcrumb-item>
@@ -131,15 +133,12 @@
 		align-items: center;
 		gap: 20px;
 	}
-	.header_left {
-		.el-icon {
-			cursor: pointer;
-		}
+	.operationAside {
+		height: 30px;
+		cursor: pointer;
 	}
-	.header_right {
-		.el-avatar {
-			cursor: pointer;
-		}
+	.el-avatar {
+		cursor: pointer;
 	}
 	.autocompleteValue {
 		display: flex;

@@ -2,6 +2,7 @@
  * 网站基本配置
  */
 import { defineStore } from "pinia";
+import { RouteRecordRaw } from "vue-router";
 import { encrypt, decrypt } from "@/utils/sm4";
 import pages from "@/router/page";
 const title = import.meta.env.VITE_APP_TITLE;
@@ -49,21 +50,23 @@ const useConfigStore = defineStore("config", {
 				func?: Function;
 			}
 			let restaurants: Search[] = [];
-			pages.forEach((item) => {
-				let obj: Search = {
-					text: "",
-					type: "page",
-					path: ""
-				};
-				obj.text = item.meta?.title || "";
-				obj.path = item.path || "";
-				if (item.children && item.children.length > 0) {
-					item.children.forEach((item2) => {
-						obj.text += " - " + item2.meta?.title || "";
-						obj.path += "/" + item2.path || "";
+			// 页面搜索
+			pages.forEach((page: RouteRecordRaw) => {
+				if (page.children) {
+					page.children.forEach((child: RouteRecordRaw) => {
+						restaurants.push({
+							text: (page.meta?.title + " - " + child.meta?.title) as string,
+							type: "page",
+							path: (page.path + "/" + child.path) as string
+						});
+					});
+				} else {
+					restaurants.push({
+						text: page.meta?.title as string,
+						type: "page",
+						path: page.path as string
 					});
 				}
-				restaurants.push(obj);
 			});
 			return restaurants;
 		}
