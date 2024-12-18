@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 	import { Search, Refresh, EditPen, Delete, Plus, Upload, Download } from "@element-plus/icons-vue";
 	import { OptionType, DataType, PageOption } from "@/components/Table/type";
+	import { queryForm, resetForm } from "@/utils/form";
 	import { pages, sexList } from "./index";
 	import type { FormInstance } from "element-plus";
+	import { ElMessage } from "element-plus";
 
 	// 表单
 	const ruleFormRef = ref<FormInstance>();
@@ -42,7 +44,8 @@
 			label: "性别",
 			prop: "sex",
 			align: "center",
-			width: 60
+			width: 60,
+			slot: "sex"
 		},
 		{
 			label: "个性签名",
@@ -74,7 +77,7 @@
 			data.value = [
 				{
 					name: "张三",
-					sex: "男"
+					sex: "1"
 				}
 			];
 			pageOption.value.pageTotal = data.value.length;
@@ -83,17 +86,45 @@
 	};
 	getData();
 
-	// 查询
-	const queryForm = (formEl: FormInstance | undefined) => {
-		if (!formEl) return;
-		getData();
+	// 多选表格
+	let selectionList = ref<any[]>([]);
+	const selectionTableChange = (val: any) => {
+		selectionList.value = val;
 	};
 
-	// 重置
-	const resetForm = (formEl: FormInstance | undefined) => {
-		if (!formEl) return;
-		formEl.resetFields();
-		getData();
+	// 删除表格项
+	const deleteEvent = (type: string, row?: any) => {
+		if (type === "current") currentDelete(row);
+		if (type === "selection") selectionDelete(selectionList.value);
+	};
+	// 单项删除
+	const currentDelete = (row: any) => {
+		console.log("单项删除", row);
+		ElMessage({
+			type: "success",
+			message: "删除成功"
+		});
+	};
+	// 多选删除
+	const selectionDelete = (row: any) => {
+		ElMessageBox.confirm("是否删除选中的元素?", "删除", {
+			confirmButtonText: "删除",
+			cancelButtonText: "取消",
+			type: "error"
+		})
+			.then(() => {
+				console.log("多选删除", row);
+				ElMessage({
+					type: "success",
+					message: "删除成功"
+				});
+			})
+			.catch(() => {});
+	};
+
+	// 导出
+	const derived = () => {
+		console.log("导出");
 	};
 
 	// 弹窗
@@ -133,7 +164,7 @@
 			</el-form-item>
 			<el-form-item label="性别" prop="sex">
 				<el-select v-model="form.sex" placeholder="请选择" value-key="value" clearable style="width: 100px">
-					<el-option v-for="item in sexList" :key="item.value" :label="item.label" :value="item.value" />
+					<el-option v-for="(label, value) in sexList" :key="value" :label="label" :value="value" />
 				</el-select>
 			</el-form-item>
 			<el-form-item label="注册时间" prop="date">
@@ -147,28 +178,45 @@
 				/>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" :icon="Search" @click="queryForm(ruleFormRef)">查询</el-button>
-				<el-button :icon="Refresh" @click="resetForm(ruleFormRef)">重置</el-button>
+				<el-button type="primary" :icon="Search" @click="queryForm(ruleFormRef, getData)">查询</el-button>
+				<el-button :icon="Refresh" @click="resetForm(ruleFormRef, getData)">重置</el-button>
 			</el-form-item>
 		</el-form>
 
 		<!-- 表格 -->
-		<Table :data="data" :option="option" :loading="loading" :maxHeight="650" isPage :pageOption="pageOption">
+		<Table :data="data" :option="option" :loading="loading" :maxHeight="650" isPage :pageOption="pageOption" @selection-table-change="selectionTableChange">
+			<template #sex="{ row }">
+				<span>{{ sexList[row.sex] }}</span>
+			</template>
 			<template #operation>
 				<el-button type="primary" plain :icon="Plus" @click="openDialog('create')">新增</el-button>
-				<el-button type="danger" plain :icon="Delete">删除</el-button>
+				<el-button type="danger" plain :icon="Delete" :disabled="selectionList.length === 0" @click="deleteEvent('selection')">删除</el-button>
 				<el-button type="info" plain :icon="Upload" @click="openDialog('upload')">导入</el-button>
-				<el-button type="warning" plain :icon="Download">导出</el-button>
+				<el-button type="warning" plain :icon="Download" @click="derived()" :disabled="data.length === 0">导出</el-button>
 			</template>
 			<template #action="{ row }">
 				<el-link type="primary" :underline="false" :icon="EditPen" @click="openDialog('edit', row)">编辑</el-link>
-				<el-link type="danger" :underline="false" :icon="Delete">删除</el-link>
+				<el-popconfirm title="是否要删除当前选中的数据？" @confirm="deleteEvent('current', row)">
+					<template #reference>
+						<el-link type="danger" :underline="false" :icon="Delete">删除</el-link>
+					</template>
+				</el-popconfirm>
 			</template>
 		</Table>
 
 		<!-- 弹窗 -->
-		<el-dialog v-model="visible" :title="dialogOptions.title" width="800" destroy-on-close :before-close="handleClose">
-			<component :is="pages[dialogOptions.type]" :data="dialogData" />
+		<el-dialog
+			v-model="visible"
+			:title="dialogOptions.title"
+			:before-close="handleClose"
+			width="800"
+			:close-on-press-escape="false"
+			:close-on-click-modal="false"
+			destroy-on-close
+			append-to-body
+			draggable
+		>
+			<component :is="pages[dialogOptions.type]" :data="dialogData" @beforeClose="handleClose" />
 		</el-dialog>
 	</div>
 </template>
