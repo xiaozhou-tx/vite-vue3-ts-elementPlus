@@ -26,6 +26,7 @@
 	.el-main {
 		padding: 0;
 		min-width: 600px;
+		z-index: 1;
 	}
 	.el-aside {
 		box-shadow: 2px 0 6px rgba(0, 0, 0, 0.35);
@@ -37,14 +38,12 @@
 	.el-header {
 		height: $header-height;
 		overflow: hidden;
-		z-index: 2;
 	}
 	.el-main {
 		height: calc(100vh - $header-height);
 		background-color: #e6ecf2;
 		overflow-y: scroll;
 		padding: 10px;
-		z-index: 1;
 	}
 
 	.folding {
