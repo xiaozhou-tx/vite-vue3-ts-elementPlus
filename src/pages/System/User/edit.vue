@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-	import { Plus, Refresh } from "@element-plus/icons-vue";
+	import { EditPen, Refresh } from "@element-plus/icons-vue";
 	import { resetForm } from "@/utils/form";
 	import { deepClone } from "@/utils/index";
 	import { sexList } from "./index";
@@ -63,7 +63,7 @@
 		</el-form>
 		<div class="bottom">
 			<el-button :icon="Refresh" @click="resetForm(ruleFormRef)">重置</el-button>
-			<el-button type="primary" :icon="Plus" @click="submitForm(ruleFormRef)">新增</el-button>
+			<el-button type="primary" :icon="EditPen" @click="submitForm(ruleFormRef)">编辑</el-button>
 		</div>
 	</div>
 </template>
