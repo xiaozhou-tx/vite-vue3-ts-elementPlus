@@ -27,7 +27,10 @@
 			if (collapseSub.value === path) isCollapseSub.value = !isCollapseSub.value;
 			else isCollapseSub.value = true;
 			collapseSub.value = path;
-			if (row.children) pagePath = path + "/" + row.children[0].path;
+			if (row.children) {
+				if (row.path != route.meta.parentPath) pagePath = path + "/" + row.children[0].path;
+				else return;
+			}
 		} else {
 			collapseSub.value = row.meta?.parentPath || "";
 		}
@@ -97,7 +100,11 @@
 						:is="isCollapseSub && collapseSub === item.path ? ArrowUp : ArrowDown"
 					></component>
 				</div>
-				<ul v-if="isCollapseSub && collapseSub === item.path" :class="configStore.collapse ? 'collapse' : ''" :style="{ top: collapseSubTop + 'px' }">
+				<ul
+					v-if="isCollapseSub && collapseSub === item.path"
+					:class="configStore.collapse ? 'collapse disabled' : 'visible'"
+					:style="{ top: collapseSubTop + 'px' }"
+				>
 					<li v-for="child in item.children" :key="child.name">
 						<div
 							class="nav-item sub-nav-item"
