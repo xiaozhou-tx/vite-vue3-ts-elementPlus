@@ -150,8 +150,9 @@
 		dialogOptions.value.title = title;
 	}
 	//  关闭弹窗
-	const handleClose = () => {
+	const handleClose = (isUpdateData: boolean) => {
 		visible.value = false;
+		if (isUpdateData === true) getData();
 	};
 </script>
 
@@ -216,7 +217,7 @@
 			append-to-body
 			draggable
 		>
-			<component :is="pages[dialogOptions.type]" :data="dialogData" @beforeClose="handleClose" />
+			<component :is="pages[dialogOptions.type]" :data="dialogData" @beforeClose="handleClose(true)" />
 		</el-dialog>
 	</div>
 </template>
