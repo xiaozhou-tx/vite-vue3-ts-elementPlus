@@ -122,9 +122,7 @@
 	<div class="table">
 		<!-- 操作表格 -->
 		<div class="operation" v-if="!!useSlots().operation">
-			<el-form-item>
-				<slot name="operation"></slot>
-			</el-form-item>
+			<slot name="operation"></slot>
 		</div>
 		<!-- 表格 -->
 		<el-table
@@ -203,8 +201,10 @@
 
 <style lang="scss" scoped>
 	.table {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
 		.el-table {
-			margin-bottom: 10px;
 			:deep(th.el-table__cell) {
 				background-color: #eeeeee;
 				color: #666666;

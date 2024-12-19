@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
-import { HomeFilled, Tools } from "@element-plus/icons-vue";
+import { HomeFilled, Tools, Menu } from "@element-plus/icons-vue";
 
 // 路由配置
 const pages: RouteRecordRaw[] = [
@@ -9,18 +9,58 @@ const pages: RouteRecordRaw[] = [
 		name: "Home",
 		component: () => import("@/pages/Home/index.vue"),
 		meta: {
-			index: "1",
 			title: "首页",
 			icon: HomeFilled,
-			requiresAuth: true
+			requiresAuth: false
 		}
+	},
+	// 模板功能
+	{
+		path: "/temFunc",
+		name: "TemFunc",
+		meta: {
+			title: "模板功能",
+			icon: Menu
+		},
+		children: [
+			{
+				path: "table",
+				name: "Table",
+				component: () => import("../pages/TemFunc/Table/index.vue"),
+				meta: {
+					title: "表格模板",
+					parentPath: "/temFunc",
+					requiresAuth: false
+				}
+			},
+			{
+				path: "map",
+				name: "Map",
+				component: () => import("../pages/TemFunc/Map/index.vue"),
+				meta: {
+					title: "地图模板",
+					parentPath: "/temFunc",
+					requiresAuth: false
+				}
+			},
+			{
+				path: "echarts",
+				name: "Echarts",
+				component: () => import("../pages/TemFunc/Echarts/index.vue"),
+				meta: {
+					title: "图表模板",
+					parentPath: "/temFunc",
+					requiresAuth: false
+				}
+			}
+		]
 	},
 	// 系统管理
 	{
 		path: "/system",
 		name: "System",
 		meta: {
-			index: "2",
+			index: "3",
 			title: "系统管理",
 			icon: Tools
 		},
@@ -30,10 +70,9 @@ const pages: RouteRecordRaw[] = [
 				name: "SystemUser",
 				component: () => import("../pages/System/User/index.vue"),
 				meta: {
-					index: "2-1",
 					title: "用户管理",
 					parentPath: "/system",
-					requiresAuth: true
+					requiresAuth: false
 				}
 			},
 			{
@@ -41,10 +80,9 @@ const pages: RouteRecordRaw[] = [
 				name: "SystemRole",
 				component: () => import("../pages/System/Role/index.vue"),
 				meta: {
-					index: "2-2",
 					title: "角色管理",
 					parentPath: "/system",
-					requiresAuth: true
+					requiresAuth: false
 				}
 			}
 		]

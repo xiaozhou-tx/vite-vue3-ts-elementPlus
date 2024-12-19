@@ -67,10 +67,12 @@
 
 	// 销毁地图
 	onUnmounted(() => {
-		//销毁地图，并清空地图容器
-		map.destroy();
-		//地图对象赋值为null
-		map = null;
+		if (map) {
+			//销毁地图，并清空地图容器
+			map.destroy();
+			//地图对象赋值为null
+			map = null;
+		}
 		//清除地图容器的 DOM 元素
 		document.getElementById("container")?.remove(); //"container" 为指定 DOM 元素的id
 	});

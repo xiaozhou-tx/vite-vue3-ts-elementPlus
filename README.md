@@ -9,6 +9,10 @@
 - 自动导入 src/components 下面的自定义组件
 - 可以使用@别名
 
+#### 注意：
+
+- 页面必须有唯一的根组件，因为 Transition 组件只能对单组件有效
+
 #### 依赖：
 
 - Vue 3：框架
@@ -189,7 +193,7 @@
     - handlerClick(row)：点击图表项时触发, difference 区别当前点击的位置(0-空白处, 1-图表项, 2-图例)
     - getEchartsRef(instance)：获取图表实例, 可以通过该实例调用图表的方法例如：加载 loading 动画等
 
-- 地图：components/Map/index.vue
+- 高德地图：components/Map/index.vue
 
   - 使用方法：
     ```html
