@@ -100,11 +100,7 @@
 						:is="isCollapseSub && collapseSub === item.path ? ArrowUp : ArrowDown"
 					></component>
 				</div>
-				<ul
-					v-if="isCollapseSub && collapseSub === item.path"
-					:class="configStore.collapse ? 'collapse disabled' : 'visible'"
-					:style="{ top: collapseSubTop + 'px' }"
-				>
+				<ul v-if="isCollapseSub && collapseSub === item.path" :class="configStore.collapse ? 'collapse' : 'visible'" :style="{ top: collapseSubTop + 'px' }">
 					<li v-for="child in item.children" :key="child.name">
 						<div
 							class="nav-item sub-nav-item"
@@ -133,6 +129,7 @@
 		animation-duration: 0.8s;
 		animation-fill-mode: both;
 	}
+
 	.aside {
 		height: 100%;
 		display: flex;
