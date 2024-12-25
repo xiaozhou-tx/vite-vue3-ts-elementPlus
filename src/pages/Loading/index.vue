@@ -1,7 +1,15 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+	const loading = ref<boolean>(false);
+	const start = () => {
+		loading.value = true;
+	};
+	const end = () => {
+		loading.value = false;
+	};
+</script>
 
 <template>
-	<div class="wrapper">
+	<div class="wrapper" v-if="loading">
 		<div class="circle"></div>
 		<div class="circle"></div>
 		<div class="circle"></div>

@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
-import { HomeFilled, Tools, Menu } from "@element-plus/icons-vue";
+import { HomeFilled, Tools, Menu, Histogram, Share } from "@element-plus/icons-vue";
 
 // 路由配置
 const pages: RouteRecordRaw[] = [
@@ -11,8 +11,33 @@ const pages: RouteRecordRaw[] = [
 		meta: {
 			title: "首页",
 			icon: HomeFilled,
-			requiresAuth: false
+			sort: "1"
 		}
+	},
+	// 大屏
+	{
+		path: "/largeScreen",
+		name: "LargeScreen",
+		component: () => import("@/pages/LargeScreen/index.vue"),
+		meta: {
+			title: "大屏",
+			icon: Histogram,
+			fullScreen: true,
+			sort: "2"
+		}
+	},
+	// 百度一下
+	{
+		path: "/baidu",
+		name: "baidu",
+		meta: {
+			title: "百度一下",
+			icon: Share,
+			sort: "3",
+			href: "https://www.baidu.com/",
+			isLink: true
+		},
+		children: []
 	},
 	// 模板功能
 	{
@@ -20,7 +45,8 @@ const pages: RouteRecordRaw[] = [
 		name: "TemFunc",
 		meta: {
 			title: "模板功能",
-			icon: Menu
+			icon: Menu,
+			sort: "4"
 		},
 		children: [
 			{
@@ -30,7 +56,7 @@ const pages: RouteRecordRaw[] = [
 				meta: {
 					title: "表格模板",
 					parentPath: "/temFunc",
-					requiresAuth: false
+					sort: "1"
 				}
 			},
 			{
@@ -40,7 +66,7 @@ const pages: RouteRecordRaw[] = [
 				meta: {
 					title: "地图模板",
 					parentPath: "/temFunc",
-					requiresAuth: false
+					sort: "2"
 				}
 			},
 			{
@@ -50,7 +76,7 @@ const pages: RouteRecordRaw[] = [
 				meta: {
 					title: "图表模板",
 					parentPath: "/temFunc",
-					requiresAuth: false
+					sort: "3"
 				}
 			}
 		]
@@ -60,9 +86,9 @@ const pages: RouteRecordRaw[] = [
 		path: "/system",
 		name: "System",
 		meta: {
-			index: "3",
 			title: "系统管理",
-			icon: Tools
+			icon: Tools,
+			sort: "5"
 		},
 		children: [
 			{
@@ -72,7 +98,7 @@ const pages: RouteRecordRaw[] = [
 				meta: {
 					title: "用户管理",
 					parentPath: "/system",
-					requiresAuth: false
+					sort: "1"
 				}
 			},
 			{
@@ -82,7 +108,7 @@ const pages: RouteRecordRaw[] = [
 				meta: {
 					title: "角色管理",
 					parentPath: "/system",
-					requiresAuth: false
+					sort: "2"
 				}
 			}
 		]

@@ -4,9 +4,9 @@
 
 <template>
 	<el-config-provider :locale="zhCn">
-		<!-- <el-watermark content="zhouLiang"> -->
-		<router-view></router-view>
-		<!-- </el-watermark> -->
+		<el-watermark content="zhouLiang">
+			<router-view></router-view>
+		</el-watermark>
 	</el-config-provider>
 </template>
 

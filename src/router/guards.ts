@@ -17,6 +17,11 @@ const guards = (router: Router) => {
 				path: "/login"
 			};
 		}
+		// 判断是否是首层展示页面
+		if (to.meta.fullScreen) {
+			let length = to.matched.length;
+			to.matched = to.matched.slice(length - 1);
+		}
 	});
 };
 

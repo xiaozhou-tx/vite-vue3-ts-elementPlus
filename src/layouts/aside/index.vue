@@ -22,6 +22,10 @@
 	 * @param index 索引
 	 */
 	const goPage = (path: string, row: RouteRecordRaw, isChile = false) => {
+		if (row.meta.isLink) {
+			window.open(row.meta.href as string, "_blank");
+			return;
+		}
 		let pagePath = path;
 		if (!isChile) {
 			if (collapseSub.value === path) isCollapseSub.value = !isCollapseSub.value;
