@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 	import screenHeader from "./header.vue";
-	import screenLeft from "./left.vue";
+	import screenLeft from "./left/index.vue";
 	import screenMain from "./main.vue";
-	import screenRight from "./right.vue";
+	import screenRight from "./right/index.vue";
+
+	// 需要添加自适应
 </script>
 
 <template>
-	<div class="largeScreen">
+	<div id="largeScreen">
 		<!-- 头部 -->
 		<div class="header"><screenHeader /></div>
 		<section>
@@ -21,37 +23,44 @@
 </template>
 
 <style lang="scss" scoped>
-	.largeScreen {
-		// width: 1920px;
-		// height: 1080px;
-		width: 100vw;
-		height: 100vh;
-		background: url("@/assets/image/largeScreen/bg.png") no-repeat;
-		background-size: cover;
+	#largeScreen {
+		width: 2048px;
+		height: 1280px;
 		color: #fff;
 		font-size: 16px;
+		background-color: #041022;
 		display: flex;
 		flex-direction: column;
 	}
 	.header {
 		width: 100%;
-		height: 125px;
+		height: 80px;
 	}
 	section {
 		flex: 1;
-		display: flex;
-		justify-content: space-between;
-		gap: 10px;
 		padding: 0 20px;
 		height: 100%;
+		position: relative;
 	}
 	.map {
-		flex: 2;
-		border: 1px solid red;
+		flex: 1;
 	}
 	.left,
 	.right {
-		flex: 1;
-		border: 1px solid red;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 500px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 10px;
+		box-sizing: border-box;
+	}
+	.left {
+		left: 20px;
+	}
+	.right {
+		right: 20px;
 	}
 </style>

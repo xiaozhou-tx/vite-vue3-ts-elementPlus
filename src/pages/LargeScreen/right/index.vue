@@ -1,7 +1,5 @@
 <script lang="ts" setup></script>
 
-<template>
-	<div class="screenLeft">左边</div>
-</template>
+<template></template>
 
 <style lang="scss" scoped></style>

@@ -25,7 +25,6 @@
 			let themeUrl: ThemeOption;
 			if (props.customTheme) themeUrl = props.customTheme;
 			else themeUrl = themes[theme];
-			console.log("themeUrl", themeUrl);
 			echarts.registerTheme(theme, themeUrl);
 		}
 		//  初始化echarts实例
@@ -77,5 +76,5 @@
 </script>
 
 <template>
-	<div ref="echartsRef" :style="{ width, height }"></div>
+	<div class="echart" ref="echartsRef" :style="{ width, height }"></div>
 </template>

@@ -4,4 +4,9 @@
 	<div class="screenMain">主体</div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+	.screenMain {
+		display: flex;
+		justify-content: center;
+	}
+</style>
