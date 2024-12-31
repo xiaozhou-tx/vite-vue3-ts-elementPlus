@@ -17,6 +17,7 @@
 		"element-plus": "^2.9.0",
 		"gm-crypt": "^0.0.2",
 		"pinia": "^2.2.7",
+		"v-scale-screen": "^2.3.0",
 		"vue": "^3.5.12",
 		"vue-router": "^4.5.0"
 	},

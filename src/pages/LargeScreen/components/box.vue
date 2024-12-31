@@ -1,18 +1,20 @@
 <script lang="ts" setup>
 	interface BoxProps {
 		title: string;
+		contentHeight?: string;
 	}
 	const props = withDefaults(defineProps<BoxProps>(), {
-		title: "标题"
+		title: "标题",
+		contentHeight: "100%"
 	});
 </script>
 
 <template>
 	<div class="box">
 		<div class="title">
-			<span class="text-ellipsis">{{ props.title }}</span>
+			<div class="text-ellipsis">{{ props.title }}</div>
 		</div>
-		<div class="content" v-if="$slots.default">
+		<div class="content" :style="{ height: contentHeight }" v-if="$slots.default">
 			<slot></slot>
 		</div>
 	</div>
@@ -34,10 +36,9 @@
 			overflow: hidden;
 			display: flex;
 			align-items: center;
-			span {
+			user-select: none;
+			div {
 				width: 180px;
-				display: inline-block;
-				user-select: none;
 			}
 		}
 		.content {

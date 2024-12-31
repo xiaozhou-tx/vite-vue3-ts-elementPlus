@@ -26,7 +26,7 @@
 - @amap/amap-jsapi-loader：高德地图
 - animate.css：动画库
 - axios：网络请求
-- autofit.js：大屏自适应
+- v-scale-screen：大屏自适应组件
 
 #### 环境配置：
 

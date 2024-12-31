@@ -31,14 +31,15 @@
 			}
 		];
 		let series: any = [];
-		series = data.value.map((item: Data, index: number) => {
-			return {
+		data.value.forEach((item: any, index: number) => {
+			series.push({
 				name: item.name,
-				type: "line",
-				smooth: true,
-				showSymbol: false,
-				symbolSize: 4,
-				areaStyle: {
+				type: "bar",
+				barWidth: "16",
+
+				itemStyle: {
+					borderRadius: [16, 16, 0, 0],
+					options: 0.8,
 					color: {
 						x: 0,
 						y: 0,
@@ -47,24 +48,27 @@
 						colorStops: [
 							{
 								offset: 0,
-								color: areaColorList[index].from
+								color: areaColorList[index].color
 							},
 							{
 								offset: 1,
 								color: areaColorList[index].to
 							}
-						],
-						global: false
+						]
 					}
 				},
 				data: item.data
-			};
+			});
 		});
 		options.value = {
 			...optionConfig,
 			tooltip: {
 				...optionConfig.tooltip,
 				trigger: "axis"
+			},
+			xAxis: {
+				...optionConfig.xAxis,
+				boundaryGap: true
 			},
 			series
 		};

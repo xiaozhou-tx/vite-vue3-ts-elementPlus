@@ -3,29 +3,34 @@
 	import screenLeft from "./left/index.vue";
 	import screenMain from "./main.vue";
 	import screenRight from "./right/index.vue";
+	import VScaleScreen from "v-scale-screen";
 
-	// 需要添加自适应
+	const innerWidth = window.innerWidth;
+	const innerHeight = window.innerHeight;
 </script>
 
 <template>
-	<div id="largeScreen">
-		<!-- 头部 -->
-		<div class="header"><screenHeader /></div>
-		<section>
-			<!-- 左边 -->
-			<div class="left"><screenLeft /></div>
-			<!-- 中间 -->
-			<div class="map"><screenMain /></div>
-			<!-- 右边 -->
-			<div class="right"><screenRight /></div>
-		</section>
-	</div>
+	<!-- fullScreen -->
+	<v-scale-screen :width="innerWidth" :height="innerHeight">
+		<div id="largeScreen">
+			<!-- 头部 -->
+			<div class="header"><screenHeader /></div>
+			<section>
+				<!-- 左边 -->
+				<div class="left"><screenLeft /></div>
+				<!-- 中间 -->
+				<div class="map"><screenMain /></div>
+				<!-- 右边 -->
+				<div class="right"><screenRight /></div>
+			</section>
+		</div>
+	</v-scale-screen>
 </template>
 
 <style lang="scss" scoped>
 	#largeScreen {
-		width: 2048px;
-		height: 1280px;
+		width: 100%;
+		height: 100%;
 		color: #fff;
 		font-size: 16px;
 		background-color: #041022;
