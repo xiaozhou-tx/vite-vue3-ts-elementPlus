@@ -19,7 +19,7 @@
 				<!-- 左边 -->
 				<div class="left"><screenLeft /></div>
 				<!-- 中间 -->
-				<div class="map"><screenMain /></div>
+				<div class="center"><screenMain /></div>
 				<!-- 右边 -->
 				<div class="right"><screenRight /></div>
 			</section>
@@ -47,20 +47,22 @@
 		height: 100%;
 		position: relative;
 	}
-	.map {
-		flex: 1;
+	.center {
+		width: 100%;
+		height: 100%;
 	}
 	.left,
 	.right {
 		position: absolute;
 		top: 0;
 		bottom: 0;
-		width: 500px;
+		width: 24%;
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
 		padding: 10px;
 		box-sizing: border-box;
+		z-index: 2;
 	}
 	.left {
 		left: 20px;

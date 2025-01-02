@@ -39,48 +39,6 @@ const pages: RouteRecordRaw[] = [
 		},
 		children: []
 	},
-	// 模板功能
-	{
-		path: "/temFunc",
-		name: "TemFunc",
-		meta: {
-			title: "模板功能",
-			icon: Menu,
-			sort: "4"
-		},
-		children: [
-			{
-				path: "table",
-				name: "Table",
-				component: () => import("../pages/TemFunc/Table/index.vue"),
-				meta: {
-					title: "表格模板",
-					parentPath: "/temFunc",
-					sort: "1"
-				}
-			},
-			{
-				path: "map",
-				name: "Map",
-				component: () => import("../pages/TemFunc/Map/index.vue"),
-				meta: {
-					title: "地图模板",
-					parentPath: "/temFunc",
-					sort: "2"
-				}
-			},
-			{
-				path: "echarts",
-				name: "Echarts",
-				component: () => import("../pages/TemFunc/Echarts/index.vue"),
-				meta: {
-					title: "图表模板",
-					parentPath: "/temFunc",
-					sort: "3"
-				}
-			}
-		]
-	},
 	// 系统管理
 	{
 		path: "/system",
@@ -88,7 +46,7 @@ const pages: RouteRecordRaw[] = [
 		meta: {
 			title: "系统管理",
 			icon: Tools,
-			sort: "5"
+			sort: "4"
 		},
 		children: [
 			{

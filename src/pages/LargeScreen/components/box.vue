@@ -32,7 +32,7 @@
 			background: url("@/assets/image/largeScreen/titleBox.png") no-repeat;
 			background-size: contain;
 			font-size: 16px;
-			padding-left: 40px;
+			padding-left: 50px;
 			overflow: hidden;
 			display: flex;
 			align-items: center;

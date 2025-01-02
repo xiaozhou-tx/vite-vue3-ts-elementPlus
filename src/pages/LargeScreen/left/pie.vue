@@ -35,25 +35,52 @@
 			legend: { ...optionConfig.legend, orient: "vertical", top: "20%", right: "20%" },
 			title: {
 				text: "统计",
-				x: "26%",
+				x: "25.5%",
 				y: "center",
 				textStyle: {
 					color: "#fff"
 				}
 			},
 			series: [
+				// 内圆
 				{
 					type: "pie",
 					silent: true,
 					center: ["30%", "50%"],
 					radius: [0, "30%"],
-					data: [{ value: 100, itemStyle: { color: "rgba(72,96,114,0.3)" } }]
+					itemStyle: {
+						color: {
+							type: "radial",
+							x: 0.5,
+							y: 0.5,
+							r: 1,
+							colorStops: [
+								{
+									offset: 0,
+									color: "rgba(50,171,241, 0)"
+								},
+								{
+									offset: 0.5,
+									color: "rgba(50,171,241, .2)"
+								},
+								{
+									offset: 1,
+									color: "rgba(50,171,241, 0)"
+								}
+							]
+						}
+					},
+					label: {
+						show: false
+					},
+					data: [100]
 				},
+				// 中间装饰
 				{
 					type: "pie",
 					silent: true,
 					center: ["30%", "50%"],
-					radius: ["35%", "37%"],
+					radius: ["36%", "38%"],
 					itemStyle: {
 						color: {
 							x: 0,
@@ -81,10 +108,11 @@
 					},
 					data: [100]
 				},
+				// 数据
 				{
 					type: "pie",
 					center: ["30%", "50%"],
-					radius: ["40%", "55%"],
+					radius: ["42%", "60%"],
 					padAngle: 2,
 					label: {
 						show: false
@@ -98,6 +126,21 @@
 					},
 					data: data.value
 				},
+				// 外部装饰
+				{
+					type: "pie",
+					silent: true,
+					center: ["30%", "50%"],
+					radius: ["66%", "68%"],
+					itemStyle: {
+						color: "#003359"
+					},
+					label: {
+						show: false
+					},
+					data: [100]
+				},
+				// 刻度装饰
 				{
 					type: "gauge",
 					startAngle: 270,
@@ -109,7 +152,7 @@
 					axisLabel: {
 						show: false
 					},
-					radius: "90%",
+					radius: "98%",
 					splitNumber: "52",
 					axisLine: {
 						show: false,

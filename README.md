@@ -27,6 +27,7 @@
 - animate.css：动画库
 - axios：网络请求
 - v-scale-screen：大屏自适应组件
+- three：3 维可视化
 
 #### 环境配置：
 
