@@ -131,6 +131,7 @@
 			:border="border"
 			:stripe="stripe"
 			style="width: 100%"
+			:row-key="rowKey"
 			:height="maxHeight"
 			v-loading="loading"
 			:maxHeight="maxHeight"
@@ -141,7 +142,7 @@
 			@selection-change="handleSelectionChange"
 			:highlight-current-row="highlightCurrentRow"
 		>
-			<!-- 展开行 -->
+			<!-- 自定义展开行 -->
 			<el-table-column v-if="isExpand" type="expand">
 				<template #default="{ row }">
 					<slot name="expand" :row="row" />

@@ -18,27 +18,20 @@
 	 * 跳转页面
 	 * @param path 地址
 	 * @param row 路由内容
-	 * @param isChile 是否是子菜单
-	 * @param index 索引
 	 */
-	const goPage = (path: string, row: RouteRecordRaw, isChile = false) => {
-		if (row.meta.isLink) {
+	const goPage = (path: string, row: RouteRecordRaw) => {
+		if (row.meta && row.meta.href) {
 			window.open(row.meta.href as string, "_blank");
 			return;
 		}
 		let pagePath = path;
-		if (!isChile) {
-			if (collapseSub.value === path) isCollapseSub.value = !isCollapseSub.value;
-			else isCollapseSub.value = true;
-			collapseSub.value = path;
-			if (row.children) {
-				if (row.path != route.meta.parentPath) pagePath = path + "/" + row.children[0].path;
-				else return;
+		if (row.children) {
+			if (row.path != route.meta.parentPath) pagePath = path + "/" + row.children[0].path;
+			else {
+				isCollapseSub.value = !isCollapseSub.value;
+				return;
 			}
-		} else {
-			collapseSub.value = row.meta?.parentPath || "";
 		}
-		defaultActive.value = pagePath;
 		router.push(pagePath);
 	};
 	watch(
@@ -95,9 +88,9 @@
 		<!-- 导航栏 -->
 		<nav>
 			<li v-for="item in pages" :key="item.name" ref="navItemRef">
-				<div class="nav-item" :class="item.path === defaultActive || item.path === collapseSub ? 'active' : ''" @click="goPage(item.path, item, false)">
+				<div class="nav-item" :class="item.path === defaultActive || item.path === collapseSub ? 'active' : ''" @click="goPage(item.path, item)">
 					<component class="icon" :is="item.meta?.icon" />
-					<span :class="configStore.collapse ? 'disabled' : 'visible'">{{ item.meta?.title }}</span>
+					<span :class="configStore.collapse ? 'disabled' : 'visible'">{{ item.meta?.name }}</span>
 					<component
 						v-if="item.children && item.children.length > 0"
 						class="collapseIcon"
@@ -109,10 +102,10 @@
 						<div
 							class="nav-item sub-nav-item"
 							:class="`${item.path}/${child.path}` === defaultActive ? 'active' : ''"
-							@click="goPage(`${item.path}/${child.path}`, child, true)"
+							@click="goPage(`${item.path}/${child.path}`, child)"
 						>
 							<component class="icon" :is="child.meta?.icon" />
-							<span>{{ child.meta?.title }}</span>
+							<span>{{ child.meta?.name }}</span>
 						</div>
 					</li>
 				</ul>

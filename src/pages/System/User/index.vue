@@ -54,6 +54,13 @@
 			showOverflowTooltip: true
 		},
 		{
+			label: "创建时间",
+			prop: "createTime",
+			align: "center",
+			showOverflowTooltip: true,
+			width: 200
+		},
+		{
 			label: "操作",
 			align: "center",
 			width: 120,
@@ -77,7 +84,8 @@
 			data.value = [
 				{
 					name: "张三",
-					sex: "1"
+					sex: "1",
+					createTime: "2023-01-01 12:00:00"
 				}
 			];
 			pageOption.value.pageTotal = data.value.length;
@@ -159,7 +167,7 @@
 <template>
 	<div class="user">
 		<!-- 表单 -->
-		<el-form :inline="true" ref="ruleFormRef" :model="form">
+		<el-form inline ref="ruleFormRef" :model="form">
 			<el-form-item label="用户名" prop="name">
 				<el-input v-model="form.name" placeholder="请输入" clearable style="width: 200px" />
 			</el-form-item>

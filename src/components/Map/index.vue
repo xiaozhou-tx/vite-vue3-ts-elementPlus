@@ -47,11 +47,11 @@
 		})
 			.then((AMap) => {
 				// =========  创建地图对象  =========
-				map = new AMap.Map("container", {
+				map = new AMap.Map("mapContainer", {
 					viewMode: options.viewMode,
 					zoom: options.zoom,
 					center: options.center,
-					theme: `amap://styles/${options.center}`
+					mapStyle: `amap://styles/${options.theme}`
 				});
 
 				// =========  地图加载完成阶段  =========
@@ -74,12 +74,12 @@
 			map = null;
 		}
 		//清除地图容器的 DOM 元素
-		document.getElementById("container")?.remove(); //"container" 为指定 DOM 元素的id
+		document.getElementById("mapContainer")?.remove(); //"mapContainer" 为指定 DOM 元素的id
 	});
 </script>
 
 <template>
-	<div id="container" :style="{ width, height }"></div>
+	<div id="mapContainer" :style="{ width, height }"></div>
 </template>
 
 <style lang="scss" scoped>

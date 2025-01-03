@@ -93,7 +93,7 @@
 - 防抖：v-debounce:事件 = "函数"
 - 节流：v-throttle:事件 = "函数"
 
-#### 自定义组件：不需要引入，直接使用即可，组件大写
+#### 自定义组件：不需要引入，直接使用即可，`组件大写`
 
 - 表格：components/Table/index.vue
 
@@ -130,7 +130,7 @@
     	highlightCurrentRow?: boolean; // 是否高亮当前行, 默认为false
     	selectKey?: string; // 多选框的 key 值
     	noSelectableList?: any[]; // 禁用可选择的行, 传入多选框的 key 值['key1','key2'...], 必须搭配 selectKey 使用
-    	isExpand?: boolean; // 是否展开行, 默认为 false, 需要配合具名 expand 插槽使用
+    	isExpand?: boolean; // 是否开启自定义展开行, 默认为 false, 需要配合具名 expand 插槽使用
     	showSummary?: boolean; // 是否显示合计行, 默认为 false
     	summaryList?: any[]; // 需要合计的表格项, 必须搭配 showSummary 使用
     	isPage?: boolean; // 是否分页, 默认为 false

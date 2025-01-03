@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-	import { Link, Setting, Search } from "@element-plus/icons-vue";
+	import { Setting, Search } from "@element-plus/icons-vue";
 	import useConfigStore from "@/stores/config";
 	import { debounce, fuzzySearch, getImageUrl } from "@/utils/index";
 	const configStore = useConfigStore();
@@ -21,7 +21,7 @@
 			breadcrumb.value = [];
 			if (newValue == "/home") return;
 			route.matched.forEach((item) => {
-				if (item.meta?.title) breadcrumb.value.push(item.meta.title);
+				if (item.meta?.name) breadcrumb.value.push(item.meta.name);
 			});
 		},
 		{ deep: true, immediate: true }
@@ -30,7 +30,8 @@
 	// 全局搜索执行
 	interface Search {
 		text: string;
-		type: "page" | "func";
+		type: "page" | "func" | "link";
+		icon?: any;
 		path?: string;
 		func?: Function;
 	}
@@ -40,15 +41,16 @@
 	const querySearch = (queryString: string, cb: any) => {
 		let results: Search[] = [];
 		let allCode = [" ", "*", "/"];
-		// 空格、*、/ 搜索全部，其他模糊搜索
-		if (allCode.includes(queryString)) results = restaurants.value;
+		// 空字符串、*、/ 搜索全部，其他模糊搜索
+		if (queryString.trim() === "" || allCode.includes(queryString)) results = restaurants.value;
 		else results = fuzzySearch(restaurants.value, "text", queryString);
 		cb(results);
 	};
 	// 全局搜索选中执行
 	const selectSearch = (row: any) => {
-		if (row.type == "page") router.push(row.path);
-		else row.func();
+		if (row.type === "page") router.push(row.path);
+		if (row.type === "func") row.func();
+		if (row.type === "link") window.open(row.path as string, "_blank");
 		autocomplete.value = "";
 	};
 
@@ -104,7 +106,7 @@
 				<template #default="{ item }">
 					<div class="autocompleteValue">
 						<el-icon>
-							<component :is="item.type === 'page' ? Link : Setting" />
+							<component :is="item.icon || Setting" />
 						</el-icon>
 						<span>{{ item.text }}</span>
 					</div>

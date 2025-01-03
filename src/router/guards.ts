@@ -9,7 +9,7 @@ const guards = (router: Router) => {
 	// 前置守卫
 	router.beforeEach((to, _from) => {
 		// 动态设置网站标题
-		const newTitle = `${title} - ${to.meta.title}`;
+		const newTitle = `${title} - ${to.meta.name}`;
 		configStore.setTitle(newTitle || title);
 		// 判断是否需要登录
 		if (to.meta.requiresAuth && !configStore.getToken()) {

@@ -45,7 +45,8 @@ const useConfigStore = defineStore("config", {
 		getNavSearch() {
 			interface Search {
 				text: string;
-				type: "page" | "func";
+				type: "page" | "func" | "link";
+				icon?: any;
 				path?: string;
 				func?: Function;
 			}
@@ -54,18 +55,26 @@ const useConfigStore = defineStore("config", {
 			pages.forEach((page: RouteRecordRaw) => {
 				if (page.children) {
 					page.children.forEach((child: RouteRecordRaw) => {
-						restaurants.push({
-							text: (page.meta?.title + " - " + child.meta?.title) as string,
-							type: "page",
-							path: (page.path + "/" + child.path) as string
-						});
+						let text: string = (page.meta?.name + " - " + child.meta?.name) as string;
+						let type: "page" | "func" | "link" = "page";
+						let path: string = (page.path + "/" + child.path) as string;
+						let icon: any = child.meta?.icon || page.meta?.icon;
+						if (page.meta?.href) {
+							type = "link";
+							path = child.meta?.href as string;
+						}
+						restaurants.push({ text, type, path, icon });
 					});
 				} else {
-					restaurants.push({
-						text: page.meta?.title as string,
-						type: "page",
-						path: page.path as string
-					});
+					let text: string = page.meta?.name as string;
+					let type: "page" | "func" | "link" = "page";
+					let path: string = page.path;
+					let icon: any = page.meta?.icon;
+					if (page.meta?.href) {
+						type = "link";
+						path = page.meta?.href as string;
+					}
+					restaurants.push({ text, type, path, icon });
 				}
 			});
 			return restaurants;

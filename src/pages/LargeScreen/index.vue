@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 	import screenHeader from "./header.vue";
 	import screenLeft from "./left/index.vue";
-	import screenMain from "./main.vue";
+	import screenMain from "./main/index.vue";
 	import screenRight from "./right/index.vue";
 	import VScaleScreen from "v-scale-screen";
 
@@ -36,14 +36,19 @@
 		background-color: #041022;
 		display: flex;
 		flex-direction: column;
+		position: relative;
 	}
 	.header {
 		width: 100%;
 		height: 80px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 2;
 	}
 	section {
 		flex: 1;
-		padding: 0 20px;
 		height: 100%;
 		position: relative;
 	}
@@ -54,7 +59,7 @@
 	.left,
 	.right {
 		position: absolute;
-		top: 0;
+		top: 80px;
 		bottom: 0;
 		width: 24%;
 		display: flex;
@@ -65,9 +70,9 @@
 		z-index: 2;
 	}
 	.left {
-		left: 20px;
+		left: 10px;
 	}
 	.right {
-		right: 20px;
+		right: 10px;
 	}
 </style>

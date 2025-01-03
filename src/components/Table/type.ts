@@ -4,13 +4,14 @@ export interface Props {
 	data: DataType[]; // 数据
 	border?: boolean; // 是否显示边框, 默认为true
 	loading?: boolean; // 是否显示加载中, 默认为false
+	rowKey?: string; // 行的key值
 	stripe?: boolean; // 是否显示斑马纹, 默认为false
 	emptyData?: string; // 空数据默认展示内容
 	maxHeight?: string | number; // 表格最大高度
 	highlightCurrentRow?: boolean; // 是否高亮当前行, 默认为false
 	selectKey?: string; // 多选框的key值
 	noSelectableList?: any[]; // 禁用可选择的行, 传入多选框的key值['key1','key2'...], 必须搭配selectKey使用
-	isExpand?: boolean; // 是否展开行, 默认为false, 需要配合具名expand插槽使用
+	isExpand?: boolean; // 是否开启自定义展开行, 默认为false, 需要配合具名expand插槽使用
 	showSummary?: boolean; // 是否显示合计行, 默认为false
 	summaryList?: any[]; // 需要合计的表格项, 必须搭配showSummary使用
 	isPage?: boolean; // 是否分页, 默认为false
