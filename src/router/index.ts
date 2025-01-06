@@ -1,5 +1,5 @@
 import { createWebHashHistory, createRouter, RouteRecordRaw, Router } from "vue-router";
-import pages from "./page"; // 页面路由
+import { routerPage } from "./page"; // 页面路由
 import guards from "./guards"; // 路由守卫
 
 const routes: RouteRecordRaw[] = [
@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
 		path: "/",
 		redirect: "/home",
 		component: () => import("@/layouts/index.vue"),
-		children: pages
+		children: routerPage
 	},
 	// 失败页
 	{

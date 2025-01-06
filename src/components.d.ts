@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BootstrapIcon: typeof import('./components/BootstrapIcon/index.vue')['default']
     copy: typeof import('./components/Echart/index copy.vue')['default']
     Echart: typeof import('./components/Echart/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -37,7 +38,9 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
+    Icon: typeof import('./components/Icon/index.vue')['default']
     Map: typeof import('./components/Map/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

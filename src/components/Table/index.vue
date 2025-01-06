@@ -166,6 +166,7 @@
 				:prop="item.prop"
 				:label="item.label"
 				:width="item.width"
+				:min-width="item.minWidth"
 				:align="item.align"
 				:fixed="item.fixed"
 				:sortable="item.sortable"

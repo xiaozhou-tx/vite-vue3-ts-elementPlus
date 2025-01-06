@@ -39,6 +39,7 @@ export interface OptionType {
 	prop?: string; // 属性名
 	label?: string; // 标签名
 	width?: string | number; // 宽度
+	minWidth?: string | number; // 最小宽度
 	align?: string; // 对齐方式
 	showOverflowTooltip?: boolean; // 是否显示溢出提示
 	slot?: string; // 插槽名

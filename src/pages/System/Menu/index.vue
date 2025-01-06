@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-	import { EditPen, Delete } from "@element-plus/icons-vue";
+	import { Search, Refresh, EditPen, Delete } from "@element-plus/icons-vue";
 	import { OptionType, DataType, PageOption } from "@/components/Table/type";
 	import { RouteRecordRaw } from "vue-router";
+	import { queryForm, resetForm } from "@/utils/form";
 	import { typeList, statusList } from "./index";
 	import type { FormInstance } from "element-plus";
-	import routerPage from "@/router/page";
+	import { Icon, routerPage } from "@/router/page";
+
 	// 表单
 	const ruleFormRef = ref<FormInstance>();
 	interface Form {
@@ -59,23 +61,18 @@
 			width: 100
 		},
 		{
-			label: "组件路径",
+			label: "(组件/外链)路径",
 			prop: "path",
 			align: "center",
+			minWidth: 200,
 			showOverflowTooltip: true
 		},
 		{
 			label: "菜单权限",
 			prop: "permission",
 			align: "center",
+			minWidth: 150,
 			showOverflowTooltip: true
-		},
-		{
-			label: "创建时间",
-			prop: "createTime",
-			align: "center",
-			showOverflowTooltip: true,
-			width: 200
 		},
 		{
 			label: "操作",
@@ -94,24 +91,36 @@
 	});
 
 	// 获取数据
+	interface Menu {
+		name?: string;
+		icon?: Icon;
+		sort?: string;
+		type?: string;
+		status?: boolean;
+		path?: string;
+		children?: Menu[];
+	}
 	const loading = ref<boolean>(false);
 	const getData = () => {
 		loading.value = true;
 		setTimeout(() => {
+			data.value = [];
 			// 将meta中的数据整合出来
 			routerPage.forEach((element) => {
 				if (!element.children) {
 					data.value.push(getMetaData(element));
 				} else {
-					let obj: any = {
+					let obj: Menu = {
 						name: element.meta?.name,
 						icon: element.meta?.icon,
 						sort: element.meta?.sort,
+						type: element.meta?.type,
 						status: element.meta?.status,
+						path: `pages/${String(element.name)}`,
 						children: []
 					};
-					element.children.forEach((child) => {
-						obj.children.push(getMetaData(child, element));
+					element.children.forEach((childElement) => {
+						obj.children?.push(getMetaData(childElement, element));
 					});
 					data.value.push(obj);
 				}
@@ -122,7 +131,7 @@
 	};
 	getData();
 	const getMetaData = (oldData: RouteRecordRaw, fatherData?: RouteRecordRaw) => {
-		let newObj: any = {
+		let newObj: Menu = {
 			name: oldData.meta?.name,
 			icon: oldData.meta?.icon,
 			sort: oldData.meta?.sort,
@@ -130,6 +139,7 @@
 			status: oldData.meta?.status
 		};
 		if (oldData.meta?.type != "link") newObj.path = `pages/${String(oldData.name)}/index`;
+		else newObj.path = oldData.meta?.href;
 		if (fatherData) newObj.path = `pages/${String(fatherData.name)}/${String(oldData.name)}/index`;
 		return newObj;
 	};
@@ -152,12 +162,18 @@
 					<el-option v-for="(label, value) in statusList" :key="value" :label="value" :value="label" />
 				</el-select>
 			</el-form-item>
+			<el-form-item>
+				<el-button type="primary" :icon="Search" @click="queryForm(ruleFormRef, getData)">查询</el-button>
+				<el-button :icon="Refresh" @click="resetForm(ruleFormRef, getData)">重置</el-button>
+			</el-form-item>
 		</el-form>
 
 		<!-- 表格 -->
 		<Table :data="data" :option="option" rowKey="name" :loading="loading" :maxHeight="650" isPage :pageOption="pageOption">
 			<template #icon="{ row }">
-				<component class="icon" :is="row.icon" />
+				<el-icon class="icon">
+					<component :is="row.icon?.components" :bootstrapIcon="row.icon?.name" />
+				</el-icon>
 			</template>
 			<template #type="{ row }">
 				<span>{{ typeList[row.type] || "-" }}</span>
@@ -186,6 +202,6 @@
 		padding: 10px;
 	}
 	.icon {
-		height: 18px;
+		font-size: 18px;
 	}
 </style>

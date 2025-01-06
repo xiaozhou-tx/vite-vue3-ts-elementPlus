@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-	import pages from "@/router/page";
+	import { routerPage } from "@/router/page";
 	import useConfigStore from "@/stores/config/index";
 	import { RouteRecordRaw } from "vue-router";
 	import { ArrowDown, ArrowUp } from "@element-plus/icons-vue";
@@ -66,7 +66,7 @@
 		(newValue) => {
 			if (route.meta.parentPath && newValue) {
 				nextTick(() => {
-					const index = pages.findIndex((item) => item.path === route.meta.parentPath);
+					const index = routerPage.findIndex((item: { path: string | undefined }) => item.path === route.meta.parentPath);
 					// 获取当前展开导航栏top距离
 					if (navItemRef.value && configStore.collapse) {
 						collapseSubTop.value = navItemRef.value[index].offsetTop + 60;
@@ -76,6 +76,11 @@
 		},
 		{ deep: true, immediate: true }
 	);
+
+	// 获取status是true的数据
+	const page = computed(() => {
+		return routerPage.filter((item) => item.meta?.status);
+	});
 </script>
 
 <template>
@@ -87,9 +92,11 @@
 		</div>
 		<!-- 导航栏 -->
 		<nav>
-			<li v-for="item in pages" :key="item.name" ref="navItemRef">
+			<li v-for="item in page" :key="item.name" ref="navItemRef">
 				<div class="nav-item" :class="item.path === defaultActive || item.path === collapseSub ? 'active' : ''" @click="goPage(item.path, item)">
-					<component class="icon" :is="item.meta?.icon" />
+					<el-icon class="icon">
+						<component :is="item.meta?.icon?.components" :bootstrapIcon="item.meta?.icon?.name" />
+					</el-icon>
 					<span :class="configStore.collapse ? 'disabled' : 'visible'">{{ item.meta?.name }}</span>
 					<component
 						v-if="item.children && item.children.length > 0"
@@ -104,7 +111,9 @@
 							:class="`${item.path}/${child.path}` === defaultActive ? 'active' : ''"
 							@click="goPage(`${item.path}/${child.path}`, child)"
 						>
-							<component class="icon" :is="child.meta?.icon" />
+							<el-icon class="icon">
+								<component :is="child.meta?.icon?.components" :bootstrapIcon="child.meta?.icon?.name" />
+							</el-icon>
 							<span>{{ child.meta?.name }}</span>
 						</div>
 					</li>
@@ -169,8 +178,7 @@
 			position: relative;
 			overflow: hidden;
 			.icon {
-				width: 20px;
-				height: 20px;
+				font-size: 18px;
 				position: absolute;
 				left: 12px;
 			}

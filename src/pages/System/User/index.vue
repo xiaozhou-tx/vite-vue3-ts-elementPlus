@@ -51,6 +51,7 @@
 			label: "个性签名",
 			prop: "sign",
 			align: "center",
+			minWidth: 150,
 			showOverflowTooltip: true
 		},
 		{

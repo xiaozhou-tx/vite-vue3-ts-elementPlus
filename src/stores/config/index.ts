@@ -4,7 +4,7 @@
 import { defineStore } from "pinia";
 import { RouteRecordRaw } from "vue-router";
 import { encrypt, decrypt } from "@/utils/sm4";
-import pages from "@/router/page";
+import { routerPage } from "@/router/page";
 const title = import.meta.env.VITE_APP_TITLE;
 
 const useConfigStore = defineStore("config", {
@@ -52,7 +52,7 @@ const useConfigStore = defineStore("config", {
 			}
 			let restaurants: Search[] = [];
 			// 页面搜索
-			pages.forEach((page: RouteRecordRaw) => {
+			routerPage.forEach((page: RouteRecordRaw) => {
 				if (page.children) {
 					page.children.forEach((child: RouteRecordRaw) => {
 						let text: string = (page.meta?.name + " - " + child.meta?.name) as string;
