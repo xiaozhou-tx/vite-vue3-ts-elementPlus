@@ -38,11 +38,13 @@
 		() => route,
 		(newValue) => {
 			defaultActive.value = newValue.path;
-			isCollapseSub.value = false;
-			collapseSub.value = "";
-			if (!newValue.meta.parentPath) return;
-			isCollapseSub.value = true;
-			collapseSub.value = newValue.meta.parentPath || "";
+			if (newValue.meta.parentPath) {
+				isCollapseSub.value = true;
+				collapseSub.value = newValue.meta.parentPath || "";
+			} else {
+				isCollapseSub.value = false;
+				collapseSub.value = "";
+			}
 		},
 		{ deep: true, immediate: true }
 	);
