@@ -26,7 +26,8 @@ export default ({ mode }: any) => {
 		css: {
 			preprocessorOptions: {
 				scss: {
-					api: "modern-compiler" // 启用 modern 模式
+					api: "modern-compiler", // 启用 modern 模式
+					silenceDeprecations: ["legacy-js-api"] // 禁用警告
 				}
 			}
 		},
