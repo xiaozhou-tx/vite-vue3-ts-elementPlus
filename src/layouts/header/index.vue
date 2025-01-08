@@ -106,7 +106,7 @@
 				<template #default="{ item }">
 					<div class="autocompleteValue">
 						<el-icon>
-							<component :is="item.icon || Setting" />
+							<component :is="item.icon?.components || Setting" :bootstrapIcon="item.icon?.name" />
 						</el-icon>
 						<span>{{ item.text }}</span>
 					</div>

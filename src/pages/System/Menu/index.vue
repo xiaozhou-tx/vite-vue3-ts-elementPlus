@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-	import { Search, Refresh, EditPen, Delete } from "@element-plus/icons-vue";
-	import { OptionType, DataType, PageOption } from "@/components/Table/type";
+	import { Search, Refresh, EditPen, Delete, Plus, Upload, Download } from "@element-plus/icons-vue";
+	import { OptionType, DataType } from "@/components/Table/type";
 	import { RouteRecordRaw } from "vue-router";
 	import { queryForm, resetForm } from "@/utils/form";
-	import { typeList, statusList } from "./index";
+	import { pages, typeList, statusList } from "./index";
 	import type { FormInstance } from "element-plus";
 	import { Icon, routerPage } from "@/router/page";
 
@@ -82,13 +82,6 @@
 		}
 	]);
 	const data = ref<DataType[]>([]);
-	const pageOption = ref<PageOption>({
-		pageCurrent: 1,
-		pageSize: 10,
-		pageTotal: 0,
-		background: true,
-		align: "right"
-	});
 
 	// 获取数据
 	interface Menu {
@@ -125,7 +118,6 @@
 					data.value.push(obj);
 				}
 			});
-			pageOption.value.pageTotal = data.value.length;
 			loading.value = false;
 		}, 1000);
 	};
@@ -142,6 +134,34 @@
 		else newObj.path = oldData.meta?.href;
 		if (fatherData) newObj.path = `pages/${String(fatherData.name)}/${String(oldData.name)}/index`;
 		return newObj;
+	};
+
+	// 弹窗
+	interface DialogOptions {
+		title: string;
+		type: string;
+	}
+	const visible = ref<boolean>(false);
+	const dialogOptions = ref<DialogOptions>({
+		title: "",
+		type: ""
+	});
+	const dialogData = ref({});
+	// 打开弹窗
+	function openDialog(type: string, row?: any) {
+		visible.value = true;
+		dialogData.value = row;
+		dialogOptions.value.type = type;
+		let title = "";
+		if (type === "create") title = "新增";
+		if (type === "edit") title = "编辑";
+		if (type === "upload") title = "导入";
+		dialogOptions.value.title = title;
+	}
+	//  关闭弹窗
+	const handleClose = (isUpdateData: boolean) => {
+		visible.value = false;
+		if (isUpdateData === true) getData();
 	};
 </script>
 
@@ -169,7 +189,7 @@
 		</el-form>
 
 		<!-- 表格 -->
-		<Table :data="data" :option="option" rowKey="name" :loading="loading" :maxHeight="650" isPage :pageOption="pageOption">
+		<Table :data="data" :option="option" rowKey="name" :loading="loading" :maxHeight="650">
 			<template #icon="{ row }">
 				<el-icon class="icon">
 					<component :is="row.icon?.components" :bootstrapIcon="row.icon?.name" />
@@ -180,6 +200,11 @@
 			</template>
 			<template #status="{ row }">
 				<el-switch v-model="row.status" inline-prompt disabled active-text="启" inactive-text="关" />
+			</template>
+			<template #operation>
+				<el-button type="primary" plain :icon="Plus" @click="openDialog('create', data)">新增</el-button>
+				<el-button type="info" plain :icon="Upload">导入</el-button>
+				<el-button type="warning" plain :icon="Download" :disabled="data.length === 0">导出</el-button>
 			</template>
 			<template #action>
 				<el-link type="primary" :underline="false" :icon="EditPen">编辑</el-link>
@@ -192,6 +217,19 @@
 		</Table>
 
 		<!-- 弹窗 -->
+		<el-dialog
+			v-model="visible"
+			:title="dialogOptions.title"
+			:before-close="handleClose"
+			width="800"
+			:close-on-press-escape="false"
+			:close-on-click-modal="false"
+			destroy-on-close
+			append-to-body
+			draggable
+		>
+			<component :is="pages[dialogOptions.type]" :data="dialogData" @beforeClose="handleClose(true)" />
+		</el-dialog>
 	</div>
 </template>
 

@@ -1,3 +1,15 @@
+import { Component } from "vue";
+
+const create: Component = defineAsyncComponent(() => import("./create.vue")); // 创建
+
+// 弹窗页面
+interface Pages {
+	[key: string]: Component;
+}
+export const pages: Pages = {
+	create
+};
+
 // 菜单类型
 interface TypeList {
 	[key: string]: any;
