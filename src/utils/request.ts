@@ -33,16 +33,18 @@ service.interceptors.request.use(
 		const configData = method === "post" ? data : params;
 		console.log("请求:", url, method, configData);
 		// get加密处理
-		if (config.method === "get" && configData && isEncryption) {
+		if (config.method === "get" && configData && isEncryption == "true") {
 			let url = config.url + "?" + tansParams(configData);
 			url = url.slice(0, -1);
 			config.params = {};
 			config.url = url;
 		}
 		// post加密处理
-		if (config.method === "post" && configData && isEncryption) {
+		if (config.method === "post" && configData && isEncryption == "true") {
 			config.data = encrypt(configData);
+			config.headers["Content-Type"] = "text/plain";
 		}
+		config.headers["isEncryption"] = isEncryption;
 		return config;
 	},
 	(error) => {
@@ -53,12 +55,12 @@ service.interceptors.request.use(
 service.interceptors.response.use(
 	(response) => {
 		if (response.status === 200) {
-			const { url, method } = response.config;
-			const { code, data } = response.data;
-			console.log("响应:", url, method, code, data);
-			// 解密，并且判断返回的是不是字符串
-			if (isEncryption && typeof data === "string") response.data.data = decrypt(data);
-			return Promise.resolve(data);
+			let { url, method } = response.config;
+			let { code, data } = response.data;
+			// // 解密，并且判断返回的是不是字符串
+			if (isEncryption == "true" && typeof data === "string") response.data.data = decrypt(data);
+			console.log("响应:", url, method, code, response.data.data);
+			return Promise.resolve(response);
 		} else {
 			return Promise.reject(response);
 		}

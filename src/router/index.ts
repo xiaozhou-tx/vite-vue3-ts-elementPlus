@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
 		name: "Login",
 		component: () => import("@/pages/Login/index.vue"),
 		meta: {
-			title: "Login",
+			name: "Login",
 			requiresAuth: false
 		}
 	},
@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
 		name: "NotFound",
 		component: () => import("@/pages/NotFound/index.vue"),
 		meta: {
-			title: "NotFound",
+			name: "NotFound",
 			requiresAuth: false
 		}
 	}

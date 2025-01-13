@@ -2,35 +2,30 @@
 	import { ref } from "vue";
 	import { User, Lock } from "@element-plus/icons-vue";
 	import useConfigStore from "@/stores/config/index.ts";
-	// import { postLogin } from "@/api/login.ts";
+	import { postLogin } from "@/api/login.ts";
 	const configStore = useConfigStore();
 
 	const router = useRouter();
 
 	// 登录
 	const form = ref({
-		userName: "admin",
-		password: "123456789"
+		username: "admin",
+		password: "123456"
 	});
 	const loading = ref(false);
 	const login = () => {
 		loading.value = true;
-
-		// 模拟登录
-		setTimeout(() => {
-			loading.value = false;
-			configStore.setToken("123456");
-			ElMessage.success("登录成功");
-			router.push("/");
-		}, 1000);
-
-		// let params = form.value;
-		// postLogin(params).then((_res) => {
-		// loading.value = false;
-		// configStore.setToken("123456");
-		// ElMessage.success("登录成功");
-		// router.push("/");
-		// });
+		let params = form.value;
+		postLogin(params)
+			.then((res) => {
+				let data = res.data;
+				configStore.setToken(data.token);
+				ElMessage.success("登录成功");
+				router.push("/");
+			})
+			.finally(() => {
+				loading.value = false;
+			});
 	};
 </script>
 
@@ -39,8 +34,8 @@
 		<div class="content">
 			<div class="title">Login</div>
 			<el-form :model="form">
-				<el-form-item prop="userName">
-					<el-input clearable :prefix-icon="User" v-model="form.userName" placeholder="用户名" />
+				<el-form-item prop="username">
+					<el-input clearable :prefix-icon="User" v-model="form.username" placeholder="用户名" />
 				</el-form-item>
 				<el-form-item prop="password">
 					<el-input type="password" show-password :prefix-icon="Lock" clearable v-model="form.password" placeholder="密码" />

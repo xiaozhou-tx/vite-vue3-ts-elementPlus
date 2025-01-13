@@ -8,3 +8,12 @@ export function postLogin(data: any) {
 		data: data
 	});
 }
+
+// 注册
+export function postRegister(data: any) {
+	return request({
+		url: "/register",
+		method: "post",
+		data: data
+	});
+}

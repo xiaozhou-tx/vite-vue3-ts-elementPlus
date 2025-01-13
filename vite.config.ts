@@ -57,19 +57,19 @@ export default ({ mode }: any) => {
 			proxy: {
 				// 配置代理 - 在开发环境中使用
 				"/api/dev": {
-					target: "http://localhost:8088",
+					target: "http://localhost:3000",
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api\/dev/, "")
 				},
 				// 配置代理 - 在测试环境中使用
 				"/api/test": {
-					target: "http://localhost:8088",
+					target: "http://localhost:3000",
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api\/test/, "")
 				},
 				// 配置代理 - 在生产环境中使用
 				"/api/pro": {
-					target: "http://localhost:8088",
+					target: "http://localhost:3000",
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api\/pro/, "")
 				}
