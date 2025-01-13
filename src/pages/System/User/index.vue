@@ -5,16 +5,17 @@
 	import { pages, sexList } from "./index";
 	import type { FormInstance } from "element-plus";
 	import { ElMessage } from "element-plus";
+	import { getUserList } from "@/api/user";
 
 	// 表单
 	const ruleFormRef = ref<FormInstance>();
 	interface Form {
-		name: string;
+		username: string;
 		sex: string;
 		date: string[];
 	}
 	const form = ref<Form>({
-		name: "",
+		username: "",
 		sex: "",
 		date: []
 	});
@@ -35,7 +36,7 @@
 		},
 		{
 			label: "用户名",
-			prop: "name",
+			prop: "username",
 			align: "center",
 			showOverflowTooltip: true,
 			width: 120
@@ -68,10 +69,10 @@
 			slot: "action"
 		}
 	]);
-	const data = ref<DataType[]>([]);
+	const tableData = ref<DataType[]>([]);
 	const pageOption = ref<PageOption>({
 		pageCurrent: 1,
-		pageSize: 10,
+		pageSize: 20,
 		pageTotal: 0,
 		background: true,
 		align: "right"
@@ -79,19 +80,18 @@
 
 	// 获取数据
 	const loading = ref<boolean>(false);
-	const getData = () => {
+	const getData = async () => {
 		loading.value = true;
-		setTimeout(() => {
-			data.value = [
-				{
-					name: "张三",
-					sex: "1",
-					createTime: "2023-01-01 12:00:00"
-				}
-			];
-			pageOption.value.pageTotal = data.value.length;
-			loading.value = false;
-		}, 1000);
+		let params = {
+			pageCurrent: pageOption.value.pageCurrent,
+			pageSize: pageOption.value.pageSize,
+			...form.value
+		};
+		let res = await getUserList(params);
+		let data = res.data;
+		tableData.value = data.list;
+		pageOption.value.pageTotal = data.total;
+		loading.value = false;
 	};
 	getData();
 
@@ -169,8 +169,8 @@
 	<div class="user">
 		<!-- 表单 -->
 		<el-form inline ref="ruleFormRef" :model="form">
-			<el-form-item label="用户名" prop="name">
-				<el-input v-model="form.name" placeholder="请输入" clearable style="width: 200px" />
+			<el-form-item label="用户名" prop="username">
+				<el-input v-model="form.username" placeholder="请输入" clearable style="width: 200px" />
 			</el-form-item>
 			<el-form-item label="性别" prop="sex">
 				<el-select v-model="form.sex" placeholder="请选择" value-key="value" clearable style="width: 100px">
@@ -194,7 +194,16 @@
 		</el-form>
 
 		<!-- 表格 -->
-		<Table :data="data" :option="option" :loading="loading" :maxHeight="650" isPage :pageOption="pageOption" @selection-table-change="selectionTableChange">
+		<Table
+			:data="tableData"
+			:option="option"
+			:loading="loading"
+			:maxHeight="850"
+			isPage
+			:pageOption="pageOption"
+			@selection-table-change="selectionTableChange"
+			@current-page-change="getData"
+		>
 			<template #sex="{ row }">
 				<span>{{ sexList[row.sex] }}</span>
 			</template>
@@ -202,7 +211,7 @@
 				<el-button type="primary" plain :icon="Plus" @click="openDialog('create')">新增</el-button>
 				<el-button type="danger" plain :icon="Delete" :disabled="selectionList.length === 0" @click="deleteEvent('selection')">删除</el-button>
 				<el-button type="info" plain :icon="Upload" @click="openDialog('upload')">导入</el-button>
-				<el-button type="warning" plain :icon="Download" @click="derived()" :disabled="data.length === 0">导出</el-button>
+				<el-button type="warning" plain :icon="Download" @click="derived()" :disabled="tableData.length === 0">导出</el-button>
 			</template>
 			<template #action="{ row }">
 				<el-link type="primary" :underline="false" :icon="EditPen" @click="openDialog('edit', row)">编辑</el-link>

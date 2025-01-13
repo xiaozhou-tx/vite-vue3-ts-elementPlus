@@ -1,21 +1,13 @@
 import axios from "axios";
 import useConfigStore from "@/stores/config";
 import { encrypt, decrypt } from "@/utils/sm4";
+import { errorCode } from "./config";
+import { removeEmpty } from "./index";
 
 const router = useRouter();
 const configStore = useConfigStore();
 const api = import.meta.env.VITE_APP_URL; // 请求地址
 const isEncryption = import.meta.env.VITE_APP_ENCRYPTION; // 是否加密
-
-// get 参数加密处理：key和value分别加密，再拼接成字符串
-function tansParams(params: { [x: string]: any }) {
-	let result = "";
-	for (const key of Object.keys(params)) {
-		// 参数没值或者不存在就不传参
-		if (params[key]) result += `${encrypt(key)}=${encrypt(params[key])}&`;
-	}
-	return result;
-}
 
 // 创建一个 axios 实例
 const service = axios.create({
@@ -31,20 +23,19 @@ service.interceptors.request.use(
 		// 打印请求信息
 		const { url, method, data, params } = config;
 		const configData = method === "post" ? data : params;
-		console.log("请求:", url, method, configData);
+		console.log("请求:", url, method, removeEmpty(configData));
+		// 是否加密
+		config.headers["isEncryption"] = isEncryption;
 		// get加密处理
 		if (config.method === "get" && configData && isEncryption == "true") {
-			let url = config.url + "?" + tansParams(configData);
-			url = url.slice(0, -1);
+			config.url = config.url + "?" + encrypt(removeEmpty(configData));
 			config.params = {};
-			config.url = url;
 		}
 		// post加密处理
 		if (config.method === "post" && configData && isEncryption == "true") {
-			config.data = encrypt(configData);
+			config.data = encrypt(removeEmpty(configData));
 			config.headers["Content-Type"] = "text/plain";
 		}
-		config.headers["isEncryption"] = isEncryption;
 		return config;
 	},
 	(error) => {
@@ -56,11 +47,13 @@ service.interceptors.response.use(
 	(response) => {
 		if (response.status === 200) {
 			let { url, method } = response.config;
+			// 解密，并且判断返回的是不是字符串
+			if (isEncryption == "true" && typeof response.data === "string") response.data = decrypt(response.data);
 			let { code, data } = response.data;
-			// // 解密，并且判断返回的是不是字符串
-			if (isEncryption == "true" && typeof data === "string") response.data.data = decrypt(data);
-			console.log("响应:", url, method, code, response.data.data);
-			return Promise.resolve(response);
+			// 如果是get就去掉？后面的内容
+			if (method === "get") url = url?.split("?")[0];
+			console.log("响应:", url, method, code, data);
+			return Promise.resolve(response.data);
 		} else {
 			return Promise.reject(response);
 		}
@@ -74,24 +67,11 @@ service.interceptors.response.use(
 		// 响应错误
 		if (error.response) {
 			const { status, data } = error.response;
-			switch (status) {
-				case 401:
-					ElMessage.error("登录过期，请重新登录");
-					router.push("/login");
-					return Promise.reject(error);
-				case 403:
-					ElMessage.error("没有权限，请联系管理员");
-					return Promise.reject(error);
-				case 404:
-					ElMessage.error("请求地址不存在");
-					return Promise.reject(error);
-				case 500:
-					ElMessage.error("服务器内部错误");
-					return Promise.reject(error);
-				default:
-					ElMessage.error(data.message);
-					return Promise.reject(error);
-			}
+			// 错误code处理
+			if (errorCode[status]) ElMessage.error(errorCode[status]);
+			else ElMessage.error(data.message);
+			// 登录过期
+			if (status === 401) router.push("/login");
 		}
 		return Promise.reject(error);
 	}

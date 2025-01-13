@@ -114,3 +114,25 @@ export function throttle<This, Args extends any[]>(func: (this: This, ...args: A
 		}
 	};
 }
+
+/**
+ * 去除对象中的空值、空数组
+ */
+export function removeEmpty(obj: any) {
+	if (typeof obj !== "object") {
+		return obj;
+	}
+	for (let key in obj) {
+		if (obj[key] === null || obj[key] === undefined || obj[key] === "") {
+			delete obj[key];
+		} else if (Array.isArray(obj[key])) {
+			obj[key] = obj[key].filter((item: any) => item !== null && item !== undefined && item !== "");
+			if (obj[key].length === 0) {
+				delete obj[key];
+			}
+		} else if (typeof obj[key] === "object") {
+			obj[key] = removeEmpty(obj[key]);
+		}
+	}
+	return obj;
+}

@@ -81,7 +81,7 @@
 			slot: "action"
 		}
 	]);
-	const data = ref<DataType[]>([]);
+	const tableData = ref<DataType[]>([]);
 
 	// 获取数据
 	interface Menu {
@@ -97,11 +97,11 @@
 	const getData = () => {
 		loading.value = true;
 		setTimeout(() => {
-			data.value = [];
+			tableData.value = [];
 			// 将meta中的数据整合出来
 			routerPage.forEach((element) => {
 				if (!element.children) {
-					data.value.push(getMetaData(element));
+					tableData.value.push(getMetaData(element));
 				} else {
 					let obj: Menu = {
 						name: element.meta?.name,
@@ -115,7 +115,7 @@
 					element.children.forEach((childElement) => {
 						obj.children?.push(getMetaData(childElement, element));
 					});
-					data.value.push(obj);
+					tableData.value.push(obj);
 				}
 			});
 			loading.value = false;
@@ -189,7 +189,7 @@
 		</el-form>
 
 		<!-- 表格 -->
-		<Table :data="data" :option="option" rowKey="name" :loading="loading" :maxHeight="650">
+		<Table :data="tableData" :option="option" rowKey="name" :loading="loading" :maxHeight="650">
 			<template #icon="{ row }">
 				<el-icon class="icon">
 					<component :is="row.icon?.components" :bootstrapIcon="row.icon?.name" />
@@ -202,9 +202,9 @@
 				<el-switch v-model="row.status" inline-prompt disabled active-text="启" inactive-text="关" />
 			</template>
 			<template #operation>
-				<el-button type="primary" plain :icon="Plus" @click="openDialog('create', data)">新增</el-button>
+				<el-button type="primary" plain :icon="Plus" @click="openDialog('create', tableData)">新增</el-button>
 				<el-button type="info" plain :icon="Upload">导入</el-button>
-				<el-button type="warning" plain :icon="Download" :disabled="data.length === 0">导出</el-button>
+				<el-button type="warning" plain :icon="Download" :disabled="tableData.length === 0">导出</el-button>
 			</template>
 			<template #action>
 				<el-link type="primary" :underline="false" :icon="EditPen">编辑</el-link>

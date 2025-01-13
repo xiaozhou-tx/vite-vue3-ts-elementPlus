@@ -13,19 +13,16 @@
 		password: "123456"
 	});
 	const loading = ref(false);
-	const login = () => {
+	const login = async () => {
 		loading.value = true;
 		let params = form.value;
-		postLogin(params)
-			.then((res) => {
-				let data = res.data;
-				configStore.setToken(data.token);
-				ElMessage.success("登录成功");
-				router.push("/");
-			})
-			.finally(() => {
-				loading.value = false;
-			});
+		let res = await postLogin(params);
+		let data = res.data;
+		console.log("data", data);
+		configStore.setToken(data.token);
+		ElMessage.success("登录成功");
+		router.push("/");
+		loading.value = false;
 	};
 </script>
 
