@@ -49,16 +49,16 @@
 		{ deep: true, immediate: true }
 	);
 
-	// 监听页面宽度
-	const resize = () => {
-		if (window.innerWidth < 1000) configStore.toggleCollapse(true);
-		else configStore.toggleCollapse(false);
-	};
-	resize();
-	window.addEventListener("resize", resize);
-	onUnmounted(() => {
-		window.removeEventListener("resize", resize);
-	});
+	// 监听页面宽度,有BUG
+	// const resize = () => {
+	// 	if (window.innerWidth < 1000) configStore.toggleCollapse(true);
+	// 	else configStore.toggleCollapse(false);
+	// };
+	// resize();
+	// window.addEventListener("resize", resize);
+	// onUnmounted(() => {
+	// 	window.removeEventListener("resize", resize);
+	// });
 
 	// 监听是否折叠菜单
 	const navItemRef = ref<any>(null);
