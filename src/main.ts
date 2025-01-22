@@ -11,8 +11,12 @@ let app = createApp(App);
 
 loadDirectives(app); // 加载自定义指令
 
+// 全局错误处理
 app.config.errorHandler = (err: any, _vm, info: string) => {
 	console.error(`Error: ${err.toString()}\nInfo: ${info}`);
+};
+app.config.warnHandler = (msg: string, _vm, trace: string) => {
+	console.warn(`Warn: ${msg}\nTrace: ${trace}`);
 };
 
 app.use(pinia); // 注册pinia
