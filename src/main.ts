@@ -11,6 +11,10 @@ let app = createApp(App);
 
 loadDirectives(app); // 加载自定义指令
 
+app.config.errorHandler = (err: any, _vm, info: string) => {
+	console.error(`Error: ${err.toString()}\nInfo: ${info}`);
+};
+
 app.use(pinia); // 注册pinia
 app.use(router); // 注册路由
 app.mount("#app");
