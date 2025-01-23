@@ -56,7 +56,7 @@
 		(val) => {
 			if (val) {
 				let data = deepClone(val);
-				data.unshift({ name: "后台管理系统", path: "/" });
+				data.unshift({ name: "便捷开发系统", path: "/" });
 				data.forEach((item: Menu) => {
 					item.disabled = item.type === "link" ? true : false;
 				});

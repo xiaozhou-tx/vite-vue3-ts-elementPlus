@@ -8,6 +8,7 @@
 - 自动导入 elementPlus 组件
 - 自动导入 src/components 下面的自定义组件
 - 可以使用@别名
+- 图标接入：boostrap-icons、iconfont
 
 #### 注意：
 
@@ -227,6 +228,27 @@
 
   - 事件：
     - getMapRef(AMap, map)：获取地图实例,以便于添加插件、状态、地图事件等功能
+
+- 图标：components/Icons/index.vue
+
+  - 注意：
+
+    - 新增 iconfont 图标后需要整体替换 assets/icon 文件
+
+  - 使用方法：
+
+    ```html
+    <Icons name="图标名称" type="图标类型" />
+    ```
+
+  - 属性：
+
+    ```ts
+    interface Icon {
+    	type?: "iconfont" | "bootstrapIcon"; // 图标类型
+    	name?: string; // 图标名：iconfont：icon-xxx，bootstrapIcon：bi-xxx
+    }
+    ```
 
 #### pinia 状态管理：
 

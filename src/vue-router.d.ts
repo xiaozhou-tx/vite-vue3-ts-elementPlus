@@ -1,8 +1,6 @@
 import "vue-router";
-interface Icon {
-	components: any; // markRaw(图标)，组件图标,需要使用markRaw()不然会报警告
-	name?: string; // 路由图标 bootstrap图标名
-}
+import { Icon } from "@/utils/type";
+
 declare module "vue-router" {
 	interface RouteMeta {
 		name?: string; // 路由名称

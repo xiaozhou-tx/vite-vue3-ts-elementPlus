@@ -192,7 +192,7 @@
 		<Table :data="tableData" :option="option" rowKey="name" :loading="loading" :maxHeight="650">
 			<template #icon="{ row }">
 				<el-icon class="icon">
-					<component :is="row.icon?.components" :bootstrapIcon="row.icon?.name" />
+					<component :is="row.icon?.components" :name="row.icon?.name" :type="row.icon?.type" />
 				</el-icon>
 			</template>
 			<template #type="{ row }">

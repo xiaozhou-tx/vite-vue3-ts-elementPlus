@@ -1,11 +1,7 @@
 import { RouteRecordRaw } from "vue-router";
 import { HomeFilled, Tools, Histogram, Share } from "@element-plus/icons-vue";
-// import BootstrapIcon from "@/components/BootstrapIcon/index.vue"; // bootstrap图标组件
-
-export interface Icon {
-	components: any; // markRaw(图标)，组件图标,需要使用markRaw()不然会报警告
-	name?: string; // bootstrap图标名
-}
+// import Icons from "@/components/Icons/index.vue"; // 图标组件
+// import { Icon } from "@/utils/type";
 
 /**
  * @param {string} name - 路由名称

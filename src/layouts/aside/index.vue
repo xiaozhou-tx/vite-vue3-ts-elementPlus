@@ -86,7 +86,7 @@
 			<li v-for="item in page" :key="item.name" ref="navItemRef">
 				<div class="nav-item" :class="item.path === defaultActive || item.path === collapseSub ? 'active' : ''" @click="goPage(item.path, item)">
 					<el-icon class="icon">
-						<component :is="item.meta?.icon?.components" :bootstrapIcon="item.meta?.icon?.name" />
+						<component :is="item.meta?.icon?.components" :name="item.meta?.icon?.name" :type="item.meta?.icon?.type" />
 					</el-icon>
 					<span :class="configStore.collapse ? 'disabled' : 'visible'">{{ item.meta?.name }}</span>
 					<component
@@ -103,7 +103,7 @@
 							@click="goPage(`${item.path}/${child.path}`, child)"
 						>
 							<el-icon class="icon">
-								<component :is="child.meta?.icon?.components" :bootstrapIcon="child.meta?.icon?.name" />
+								<component :is="child.meta?.icon?.components" :name="child.meta?.icon?.name" :type="child.meta?.icon?.type" />
 							</el-icon>
 							<span>{{ child.meta?.name }}</span>
 						</div>
