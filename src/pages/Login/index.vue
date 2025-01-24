@@ -37,8 +37,7 @@
 						:is="item.icon?.components"
 						:name="item.icon?.name"
 						:type="item.icon?.type"
-						@click="opnePage(item)"
-					/>
+						@click="opnePage(item)" />
 				</div>
 			</div>
 			<div class="right">
@@ -55,24 +54,25 @@
 	.page {
 		width: 100vw;
 		height: 100vh;
-		background: url("https://picsum.photos/seed/picsum/1920/1080") no-repeat;
+		background: url("../../assets/image/login/bg.jpg") no-repeat;
 		background-attachment: fixed;
-		background-size: cover;
+		background-size: 100% 100%;
 		position: relative;
 		user-select: none;
 		.content {
 			position: absolute;
-			top: 50%;
+			top: 18%;
 			left: 50%;
-			transform: translate(-50%, -50%);
+			transform: translateX(-50%);
 			padding: 10px 20px;
 			display: flex;
-			width: 1000px;
+			width: 50vw;
 			height: 600px;
 			.left,
 			.right {
 				padding: 20px;
 				flex: 1;
+				min-width: 300px;
 			}
 			.left {
 				background-color: #1f2a3d;
@@ -106,6 +106,14 @@
 					gap: 20px;
 					font-size: 18px;
 					cursor: pointer;
+				}
+			}
+			@media screen and (max-width: 900px) {
+				.left {
+					display: none;
+				}
+				.right {
+					border-radius: 10px;
 				}
 			}
 			.right {

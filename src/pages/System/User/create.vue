@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 	import { Plus, Refresh } from "@element-plus/icons-vue";
-	import { resetForm } from "@/utils/form";
+	import { resetForm, submitForm } from "@/utils/form";
 	import { sexList } from "./index";
 	import type { FormInstance, FormRules } from "element-plus";
 	const emits = defineEmits(["beforeClose"]);
@@ -23,14 +23,9 @@
 	});
 
 	// 新增数据
-	const submitForm = async (formEl: FormInstance | undefined) => {
-		if (!formEl) return;
-		await formEl.validate((valid) => {
-			if (valid) {
-				console.log("新增", form.value);
-				emits("beforeClose");
-			}
-		});
+	const addForm = () => {
+		console.log("新增", form.value);
+		emits("beforeClose");
 	};
 </script>
 
@@ -51,7 +46,7 @@
 		</el-form>
 		<div class="bottom">
 			<el-button :icon="Refresh" @click="resetForm(ruleFormRef)">重置</el-button>
-			<el-button type="primary" :icon="Plus" @click="submitForm(ruleFormRef)">新增</el-button>
+			<el-button type="primary" :icon="Plus" @click="submitForm(ruleFormRef, addForm)">新增</el-button>
 		</div>
 	</div>
 </template>

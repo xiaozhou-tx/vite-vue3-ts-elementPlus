@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 	import { EditPen, Refresh } from "@element-plus/icons-vue";
-	import { resetForm } from "@/utils/form";
+	import { resetForm, submitForm } from "@/utils/form";
 	import { deepClone } from "@/utils/index";
 	import { sexList } from "./index";
 	import type { FormInstance, FormRules } from "element-plus";
@@ -35,14 +35,9 @@
 	);
 
 	// 修改数据
-	const submitForm = async (formEl: FormInstance | undefined) => {
-		if (!formEl) return;
-		await formEl.validate((valid) => {
-			if (valid) {
-				console.log("修改", form.value);
-				emits("beforeClose");
-			}
-		});
+	const addForm = () => {
+		console.log("新增", form.value);
+		emits("beforeClose");
 	};
 </script>
 
@@ -63,7 +58,7 @@
 		</el-form>
 		<div class="bottom">
 			<el-button :icon="Refresh" @click="resetForm(ruleFormRef)">重置</el-button>
-			<el-button type="primary" :icon="EditPen" @click="submitForm(ruleFormRef)">编辑</el-button>
+			<el-button type="primary" :icon="EditPen" @click="submitForm(ruleFormRef, addForm)">编辑</el-button>
 		</div>
 	</div>
 </template>

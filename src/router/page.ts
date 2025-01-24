@@ -27,6 +27,7 @@ const page: RouteRecordRaw[] = [
 			icon: { components: markRaw(HomeFilled) },
 			sort: "1",
 			type: "page",
+			requiresAuth: true,
 			status: true
 		}
 	},
@@ -55,7 +56,8 @@ const page: RouteRecordRaw[] = [
 			fullScreen: true,
 			sort: "2",
 			type: "extPage",
-			status: true
+			status: true,
+			requiresAuth: true
 		}
 	},
 	// 系统管理
@@ -79,7 +81,8 @@ const page: RouteRecordRaw[] = [
 					parentPath: "/system",
 					sort: "2",
 					type: "page",
-					status: true
+					status: true,
+					requiresAuth: true
 				}
 			},
 			// 导航管理
@@ -92,7 +95,8 @@ const page: RouteRecordRaw[] = [
 					parentPath: "/system",
 					sort: "1",
 					type: "page",
-					status: true
+					status: true,
+					requiresAuth: true
 				}
 			}
 		]

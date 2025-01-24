@@ -3,8 +3,8 @@ import useConfigStore from "@/stores/config";
 import { encrypt, decrypt } from "@/utils/sm4";
 import { errorCode } from "./config";
 import { removeEmpty } from "./index";
+import router from "@/router";
 
-const router = useRouter();
 const configStore = useConfigStore();
 const api = import.meta.env.VITE_APP_URL; // 请求地址
 const isEncryption = import.meta.env.VITE_APP_ENCRYPTION; // 是否加密
@@ -66,10 +66,14 @@ service.interceptors.response.use(
 		}
 		// 响应错误
 		if (error.response) {
-			const { status, data } = error.response;
-			// 错误code处理
-			if (errorCode[status]) ElMessage.error(errorCode[status]);
-			else ElMessage.error(data.message);
+			let { status, data } = error.response;
+			if (isEncryption == "true" && typeof data === "string") data = decrypt(data);
+
+			// 打印错误信息
+			if (data.message) ElMessage.error(data.message);
+			else if (errorCode[status]) ElMessage.error(errorCode[status]);
+			else ElMessage.error("未知错误");
+
 			// 登录过期
 			if (status === 401) router.push("/login");
 		}

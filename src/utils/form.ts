@@ -20,3 +20,15 @@ export const resetForm = (formEl: FormInstance | undefined, fun?: Function) => {
 	formEl.resetFields();
 	if (fun) fun();
 };
+
+/**
+ * 新增表单
+ * @param formEl 表单元素
+ * @param fun 待执行函数
+ */
+export const submitForm = async (formEl: FormInstance | undefined, fun?: Function) => {
+	if (!formEl) return;
+	await formEl.validate((valid) => {
+		if (valid && fun) fun();
+	});
+};
